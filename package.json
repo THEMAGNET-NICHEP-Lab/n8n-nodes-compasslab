@@ -1,0 +1,21 @@
+{
+	"name": "n8n-nodes-compasslab-workspace",
+	"private": true,
+	"description": "n8n community nodes for the CompassLab APIs, one package per API. Run `npm run generate` after editing src/.",
+	"license": "MIT",
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"generate": "node generate.mjs && prettier --write \"packages/*/{nodes,credentials}/**/*.ts\" --log-level warn",
+		"build": "npm run build --workspaces",
+		"lint": "npm run lint --workspaces"
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "^0.50.4",
+		"eslint": "9.39.4",
+		"prettier": "3.8.3",
+		"release-it": "20.2.0",
+		"typescript": "5.9.3"
+	}
+}

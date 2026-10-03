@@ -1,0 +1,66 @@
+import { NodeConnectionTypes, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
+import { operations } from './operations';
+import { apiMarketTest, rapidApiTest } from './shared/credentialTest';
+import { withErrorHandling } from './shared/transport';
+
+export class CompassLabPdfToText implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'CompassLab PDF to Text',
+		name: 'compassLabPdfToText',
+		icon: {
+			light: 'file:../../icons/pdf-to-text.svg',
+			dark: 'file:../../icons/pdf-to-text.dark.svg',
+		},
+		group: ['transform'],
+		version: 1,
+		subtitle: '={{$parameter["operation"]}}',
+		description:
+			'Extract the text of a PDF (URL or file) as plain text, Markdown or page by page, with metadata and scanned-page flags',
+		defaults: {
+			name: 'CompassLab PDF to Text',
+		},
+		usableAsTool: true,
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
+		credentials: [
+			{
+				name: 'compassLabPdfToTextApiMarketApi',
+				required: true,
+				testedBy: 'apiMarketTest',
+				displayOptions: { show: { authentication: ['apiMarket'] } },
+			},
+			{
+				name: 'compassLabPdfToTextRapidApiApi',
+				required: true,
+				testedBy: 'rapidApiTest',
+				displayOptions: { show: { authentication: ['rapidApi'] } },
+			},
+		],
+		requestDefaults: {
+			headers: {
+				Accept: 'application/json',
+			},
+		},
+		properties: [
+			{
+				displayName: 'Marketplace',
+				name: 'authentication',
+				type: 'options',
+				options: [
+					{ name: 'Api.market', value: 'apiMarket' },
+					{ name: 'RapidAPI', value: 'rapidApi' },
+				],
+				default: 'apiMarket',
+				description: 'Where you subscribed to PDF to Text and Markdown',
+			},
+			...withErrorHandling(operations),
+		],
+	};
+
+	methods = {
+		credentialTest: {
+			apiMarketTest,
+			rapidApiTest,
+		},
+	};
+}

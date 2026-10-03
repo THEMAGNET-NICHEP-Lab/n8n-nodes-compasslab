@@ -1,0 +1,202 @@
+import type { INodeProperties } from 'n8n-workflow';
+import {baseURL, fileSourceFields, imageToBinary, sendAsMultipart } from './shared/transport';
+
+const generate = ['generateQr', 'generateBarcode'];
+
+const colour = (name: string, displayName: string, value: string): INodeProperties => ({
+	displayName,
+	name,
+	type: 'color',
+	default: value,
+	routing: { send: { type: 'query', property: name } },
+});
+
+export const operations: INodeProperties[] = [
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		noDataExpression: true,
+				options: [
+			{
+				name: 'Generate Barcode',
+				value: 'generateBarcode',
+				action: 'Generate a barcode',
+				description: 'Generate an EAN-13, UPC-A, Code 128 or Code 39 barcode as PNG or SVG',
+				routing: {
+					request: { method: 'GET', baseURL, url: '/v1/barcode', encoding: 'arraybuffer' },
+					output: { postReceive: [imageToBinary] },
+				},
+			},
+			{
+				name: 'Generate QR Code',
+				value: 'generateQr',
+				action: 'Generate a QR code',
+				description: 'Generate a QR code as PNG or SVG',
+				routing: {
+					request: { method: 'GET', baseURL, url: '/v1/qr', encoding: 'arraybuffer' },
+					output: { postReceive: [imageToBinary] },
+				},
+			},
+			{
+				name: 'Read Codes',
+				value: 'read',
+				action: 'Read QR codes and barcodes from an image',
+				description: 'Read every QR code and barcode in an image, with format, value and position',
+				routing: {
+					request: { method: 'POST', baseURL, url: '/v1/codes/read' },
+					send: { preSend: [sendAsMultipart] },
+				},
+			},
+		],
+		default: 'generateQr',
+	},
+	{
+		displayName: 'Content',
+		name: 'data',
+		type: 'string',
+		default: '',
+		required: true,
+		placeholder: 'https://example.com',
+		description: 'Text or URL to encode (up to 2000 characters)',
+		displayOptions: { show: { operation: ['generateQr'] } },
+		routing: { send: { type: 'query', property: 'data' } },
+	},
+	{
+		displayName: 'Barcode Type',
+		name: 'type',
+		type: 'options',
+		options: [
+			{ name: 'Code 128', value: 'code128' },
+			{ name: 'Code 39', value: 'code39' },
+			{ name: 'EAN-13', value: 'ean13' },
+			{ name: 'UPC-A', value: 'upca' },
+		],
+		default: 'ean13',
+		displayOptions: { show: { operation: ['generateBarcode'] } },
+		routing: { send: { type: 'query', property: 'type' } },
+	},
+	{
+		displayName: 'Value',
+		name: 'barcodeData',
+		type: 'string',
+		default: '',
+		required: true,
+		placeholder: '590123412345',
+		description:
+			'EAN-13: 12 digits (check digit added) or 13 (verified). UPC-A: 11 or 12 digits. Code 128 / Code 39: text.',
+		displayOptions: { show: { operation: ['generateBarcode'] } },
+		routing: { send: { type: 'query', property: 'data' } },
+	},
+	{
+		displayName: 'Image Format',
+		name: 'format',
+		type: 'options',
+		options: [
+			{ name: 'PNG', value: 'png' },
+			{ name: 'SVG', value: 'svg' },
+		],
+		default: 'png',
+		description: 'SVG for print and scaling, PNG for screens',
+		displayOptions: { show: { operation: generate } },
+		routing: { send: { type: 'query', property: 'format' } },
+	},
+	{
+		displayName: 'Put Output File in Field',
+		name: 'binaryPropertyOutput',
+		type: 'string',
+		default: 'data',
+		required: true,
+		hint: 'The name of the output binary field to put the image in',
+		displayOptions: { show: { operation: generate } },
+	},
+	{
+		displayName: 'Options',
+		name: 'qrOptions',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
+		displayOptions: { show: { operation: ['generateQr'] } },
+		options: [
+			colour('dark', 'Dark Colour', '#000000'),
+			colour('light', 'Light Colour', '#ffffff'),
+			{
+				displayName: 'Error Correction',
+				name: 'error',
+				type: 'options',
+				options: [
+					{ name: 'L (7%)', value: 'L' },
+					{ name: 'M (15%)', value: 'M' },
+					{ name: 'Q (25%)', value: 'Q' },
+					{ name: 'H (30%)', value: 'H' },
+				],
+				default: 'M',
+				routing: { send: { type: 'query', property: 'error' } },
+			},
+			{
+				displayName: 'Quiet Zone',
+				name: 'border',
+				type: 'number',
+				default: 4,
+				typeOptions: { minValue: 0, maxValue: 16 },
+				description: 'Empty border around the code, in modules',
+				routing: { send: { type: 'query', property: 'border' } },
+			},
+			{
+				displayName: 'Scale',
+				name: 'scale',
+				type: 'number',
+				default: 8,
+				typeOptions: { minValue: 1, maxValue: 50 },
+				description: 'Pixels per module (PNG size)',
+				routing: { send: { type: 'query', property: 'scale' } },
+			},
+		],
+	},
+	{
+		displayName: 'Options',
+		name: 'barcodeOptions',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
+		displayOptions: { show: { operation: ['generateBarcode'] } },
+		options: [
+			colour('dark', 'Dark Colour', '#000000'),
+			colour('light', 'Light Colour', '#ffffff'),
+			{
+				displayName: 'Bar Height (Mm)',
+				name: 'height',
+				type: 'number',
+				default: 15,
+				typeOptions: { minValue: 1, maxValue: 50, numberPrecision: 1 },
+				routing: { send: { type: 'query', property: 'height' } },
+			},
+			{
+				displayName: 'Bar Width (Mm)',
+				name: 'module_width',
+				type: 'number',
+				default: 0.3,
+				typeOptions: { minValue: 0.1, maxValue: 1, numberPrecision: 2 },
+				description: 'Width of the narrowest bar',
+				routing: { send: { type: 'query', property: 'module_width' } },
+			},
+			{
+				displayName: 'Show Text',
+				name: 'show_text',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to print the human-readable text under the bars',
+				routing: { send: { type: 'query', property: 'show_text' } },
+			},
+		],
+	},
+	...fileSourceFields(
+		{ operation: ['read'] },
+		{
+			name: 'image_url',
+			displayName: 'Image URL',
+			placeholder: 'https://example.com/label.png',
+			description: 'Public link to a PNG, JPEG, WebP, GIF or BMP image (max 5 MB)',
+		},
+	),
+];

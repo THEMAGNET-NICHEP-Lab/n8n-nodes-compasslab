@@ -1,0 +1,21 @@
+{
+	"node": "n8n-nodes-compasslab-email-validator",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Marketing",
+		"Utility"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-email-validator#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-email-validator#readme"
+			}
+		]
+	}
+}
