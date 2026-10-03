@@ -39,6 +39,8 @@ export class CompassLabEmailValidator implements INodeType {
 		requestDefaults: {
 			headers: {
 				Accept: 'application/json',
+				// Lets us count the calls that come from n8n; no user data
+				'X-CompassLab-Client': 'n8n-nodes-compasslab-email-validator/0.1.0',
 			},
 		},
 		properties: [
