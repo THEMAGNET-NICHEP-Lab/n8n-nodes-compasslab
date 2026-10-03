@@ -1,0 +1,25 @@
+# Runs n8n's official community package scanner (the check n8n uses for verification) on every published
+# package. Run it from the Actions tab after a release.
+name: Scan published packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      - name: Scan every package with @n8n/scan-community-package
+        run: |
+          failed=0
+          for dir in packages/*/; do
+            name=$(node -p "require('./${dir}package.json').name")
+            echo "::group::${name}"
+            if npx -y @n8n/scan-community-package "${name}"; then echo "PASS ${name}"; else echo "FAIL ${name}"; failed=1; fi
+            echo "::endgroup::"
+          done
+          exit $failed
