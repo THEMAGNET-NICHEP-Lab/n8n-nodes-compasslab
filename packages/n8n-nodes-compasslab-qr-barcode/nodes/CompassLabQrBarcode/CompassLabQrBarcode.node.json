@@ -8,12 +8,12 @@
 	"resources": {
 		"credentialDocumentation": [
 			{
-				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-qr-barcode#credentials"
+				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-qr-barcode#credentials"
 			}
 		],
 		"primaryDocumentation": [
 			{
-				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-qr-barcode#readme"
+				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-qr-barcode#readme"
 			}
 		]
 	}

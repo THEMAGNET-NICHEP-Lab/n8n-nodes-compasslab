@@ -1,9 +1,9 @@
 {
 	"name": "n8n-nodes-compasslab-social-links",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "n8n node for Social Links Finder for Company Profiles (CompassLab): Find a company's official LinkedIn, X, Instagram, YouTube, TikTok, GitHub and more from its domain.",
 	"license": "MIT",
-	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-social-links#readme",
+	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-social-links#readme",
 	"keywords": [
 		"n8n-community-node-package",
 		"n8n",
@@ -20,8 +20,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab.git",
-		"directory": "packages/n8n-nodes-compasslab-social-links"
+		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-social-links.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",

@@ -8,7 +8,7 @@ export class CompassLabQrBarcodeRapidApiApi implements ICredentialType {
 	icon: Icon = { light: 'file:../icons/qr-barcode.svg', dark: 'file:../icons/qr-barcode.dark.svg' };
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-qr-barcode#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-qr-barcode#credentials';
 
 	properties: INodeProperties[] = [
 		{

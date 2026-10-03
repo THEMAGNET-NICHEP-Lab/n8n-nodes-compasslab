@@ -11,7 +11,7 @@ export class CompassLabPhoneValidatorApiMarketApi implements ICredentialType {
 	};
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-phone-validator#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-phone-validator#credentials';
 
 	properties: INodeProperties[] = [
 		{

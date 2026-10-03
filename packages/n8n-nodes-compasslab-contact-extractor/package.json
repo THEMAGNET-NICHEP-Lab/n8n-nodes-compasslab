@@ -1,9 +1,9 @@
 {
 	"name": "n8n-nodes-compasslab-contact-extractor",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "n8n node for Website Contact Extractor for Emails and Phones (CompassLab): Find a company's published business emails, phones, social profiles, address and VAT ID from its domain.",
 	"license": "MIT",
-	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-contact-extractor#readme",
+	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-contact-extractor#readme",
 	"keywords": [
 		"n8n-community-node-package",
 		"n8n",
@@ -20,8 +20,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab.git",
-		"directory": "packages/n8n-nodes-compasslab-contact-extractor"
+		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-contact-extractor.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",

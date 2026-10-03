@@ -11,7 +11,7 @@ export class CompassLabPdfToTextRapidApiApi implements ICredentialType {
 	};
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-pdf-to-text#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-pdf-to-text#credentials';
 
 	properties: INodeProperties[] = [
 		{

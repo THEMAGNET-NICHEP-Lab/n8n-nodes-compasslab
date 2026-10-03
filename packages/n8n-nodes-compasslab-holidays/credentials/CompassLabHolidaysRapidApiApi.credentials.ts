@@ -8,7 +8,7 @@ export class CompassLabHolidaysRapidApiApi implements ICredentialType {
 	icon: Icon = { light: 'file:../icons/holidays.svg', dark: 'file:../icons/holidays.dark.svg' };
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-holidays#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-holidays#credentials';
 
 	properties: INodeProperties[] = [
 		{

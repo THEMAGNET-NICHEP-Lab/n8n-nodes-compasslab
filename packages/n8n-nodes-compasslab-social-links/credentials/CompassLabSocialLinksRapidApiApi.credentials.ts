@@ -11,7 +11,7 @@ export class CompassLabSocialLinksRapidApiApi implements ICredentialType {
 	};
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-social-links#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-social-links#credentials';
 
 	properties: INodeProperties[] = [
 		{

@@ -8,7 +8,7 @@ export class CompassLabTechStackRapidApiApi implements ICredentialType {
 	icon: Icon = { light: 'file:../icons/tech-stack.svg', dark: 'file:../icons/tech-stack.dark.svg' };
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-tech-stack#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-tech-stack#credentials';
 
 	properties: INodeProperties[] = [
 		{

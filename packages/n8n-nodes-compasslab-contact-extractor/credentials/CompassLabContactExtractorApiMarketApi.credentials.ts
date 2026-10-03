@@ -11,7 +11,7 @@ export class CompassLabContactExtractorApiMarketApi implements ICredentialType {
 	};
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-contact-extractor#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-contact-extractor#credentials';
 
 	properties: INodeProperties[] = [
 		{

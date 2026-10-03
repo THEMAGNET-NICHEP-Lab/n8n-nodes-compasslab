@@ -11,7 +11,7 @@ export class CompassLabEmailValidatorRapidApiApi implements ICredentialType {
 	};
 
 	documentationUrl =
-		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-email-validator#credentials';
+		'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-email-validator#credentials';
 
 	properties: INodeProperties[] = [
 		{

@@ -1,9 +1,9 @@
 {
 	"name": "n8n-nodes-compasslab-tech-stack",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "n8n node for Website Technology Stack Detector (CompassLab): Detect the technologies behind any website: CMS, shop platform, analytics, CDN, hosting, payments and more.",
 	"license": "MIT",
-	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-tech-stack#readme",
+	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-tech-stack#readme",
 	"keywords": [
 		"n8n-community-node-package",
 		"n8n",
@@ -20,8 +20,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab.git",
-		"directory": "packages/n8n-nodes-compasslab-tech-stack"
+		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-tech-stack.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",

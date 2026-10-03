@@ -1,9 +1,9 @@
 {
 	"name": "n8n-nodes-compasslab-article-extractor",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "n8n node for Article Extractor to Clean Text and Markdown (CompassLab): Turn any web page or PDF link into clean Markdown and text, with title, author, date and language.",
 	"license": "MIT",
-	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-article-extractor#readme",
+	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-article-extractor#readme",
 	"keywords": [
 		"n8n-community-node-package",
 		"n8n",
@@ -20,8 +20,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab.git",
-		"directory": "packages/n8n-nodes-compasslab-article-extractor"
+		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-article-extractor.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",

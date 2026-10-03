@@ -9,9 +9,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
-const REPO = 'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab';
+const OWNER = 'https://github.com/THEMAGNET-NICHEP-Lab';
+const REPO = `${OWNER}/n8n-nodes-compasslab`; // overview of all packages
+// n8n vets each package against its own repo, with the package at the repo root
+const repoOf = (id) => `${OWNER}/n8n-nodes-compasslab-${id}`;
 const AUTHOR = { name: 'CompassLab', email: 'jaouchamouad@proton.me' }; // public support address, required by n8n's linter
-const VERSION = '0.1.1';
+const VERSION = '0.1.2';
 const LEGAL = {
 	holidays: 'https://eu-business-validator.onrender.com',
 	email: 'https://email-validator-8cgg.onrender.com',
@@ -306,7 +309,7 @@ export class ${cls} implements ICredentialType {
 
 	icon: Icon = { light: 'file:../icons/${p.id}.svg', dark: 'file:../icons/${p.id}.dark.svg' };
 
-	documentationUrl = '${REPO}/tree/main/packages/n8n-nodes-compasslab-${p.id}#credentials';
+	documentationUrl = '${repoOf(p.id)}#credentials';
 
 	properties: INodeProperties[] = [
 		{
@@ -463,6 +466,7 @@ Built with the \`n8n-node\` CLI (n8n Nodes API version 1). No runtime dependenci
 
 ## Version history
 
+- **0.1.2**: each package now has its own repository.
 - **0.1.1**: node category renamed to n8n's current list.
 - **0.1.0**: first release.
 
@@ -479,10 +483,10 @@ function packageJson(p, pkg) {
 			version: VERSION,
 			description: `n8n node for ${p.apiTitle} (CompassLab): ${p.description}.`,
 			license: 'MIT',
-			homepage: `${REPO}/tree/main/packages/${pkg}#readme`,
+			homepage: `${repoOf(p.id)}#readme`,
 			keywords: ['n8n-community-node-package', 'n8n', 'compasslab', ...p.keywords],
 			author: AUTHOR,
-			repository: { type: 'git', url: `git+${REPO}.git`, directory: `packages/${pkg}` },
+			repository: { type: 'git', url: `git+${repoOf(p.id)}.git` },
 			scripts: {
 				build: 'n8n-node build',
 				'build:watch': 'tsc --watch',
@@ -525,8 +529,8 @@ const codex = (p) =>
 			codexVersion: '1.0',
 			categories: p.categories,
 			resources: {
-				credentialDocumentation: [{ url: `${REPO}/tree/main/packages/n8n-nodes-compasslab-${p.id}#credentials` }],
-				primaryDocumentation: [{ url: `${REPO}/tree/main/packages/n8n-nodes-compasslab-${p.id}#readme` }],
+				credentialDocumentation: [{ url: `${repoOf(p.id)}#credentials` }],
+				primaryDocumentation: [{ url: `${repoOf(p.id)}#readme` }],
 			},
 		},
 		null,
@@ -548,6 +552,7 @@ for (const p of PRODUCTS) {
 	write(join(dir, 'package.json'), packageJson(p, pkg));
 	write(join(dir, 'README.md'), readme(p, pkg));
 	cpSync(join(ROOT, 'LICENSE.md'), join(dir, 'LICENSE.md'));
+	cpSync(join(ROOT, 'src', 'repo'), dir, { recursive: true }); // CI, publish workflow, ignore rules
 	cpSync(join(ROOT, 'src', 'tsconfig.json'), join(dir, 'tsconfig.json'));
 	cpSync(join(ROOT, 'src', 'eslint.config.mjs'), join(dir, 'eslint.config.mjs'));
 	write(join(dir, 'icons', `${p.id}.svg`), icon(p, false));

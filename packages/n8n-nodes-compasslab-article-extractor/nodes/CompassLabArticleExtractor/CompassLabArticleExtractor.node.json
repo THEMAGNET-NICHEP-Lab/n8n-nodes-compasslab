@@ -9,12 +9,12 @@
 	"resources": {
 		"credentialDocumentation": [
 			{
-				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-article-extractor#credentials"
+				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-article-extractor#credentials"
 			}
 		],
 		"primaryDocumentation": [
 			{
-				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-article-extractor#readme"
+				"url": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-article-extractor#readme"
 			}
 		]
 	}
