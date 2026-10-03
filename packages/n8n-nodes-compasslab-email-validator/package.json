@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab-email-validator",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n node for Email Validator with MX and Disposable Check (CompassLab): Validate email addresses: syntax, MX records, disposable and role addresses, free providers, typo suggestions.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-email-validator#readme",

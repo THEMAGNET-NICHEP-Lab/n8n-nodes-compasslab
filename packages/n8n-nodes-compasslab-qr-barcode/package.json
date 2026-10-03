@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab-qr-barcode",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n node for QR Code and Barcode Generator and Reader (CompassLab): Generate QR codes and EAN-13, UPC-A, Code 128, Code 39 barcodes (PNG or SVG), and read them from images.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-qr-barcode#readme",

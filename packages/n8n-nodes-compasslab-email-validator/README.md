@@ -58,6 +58,7 @@ Built with the `n8n-node` CLI (n8n Nodes API version 1). No runtime dependencies
 
 ## Version history
 
+- **0.1.1**: node category renamed to n8n's current list.
 - **0.1.0**: first release.
 
 ## License

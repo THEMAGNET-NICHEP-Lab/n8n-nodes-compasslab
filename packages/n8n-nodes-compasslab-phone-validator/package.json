@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab-phone-validator",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n node for Phone Number Validator and Formatter (CompassLab): Validate and format phone numbers from any country: E.164, national format, type, country, region, time zone.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-phone-validator#readme",

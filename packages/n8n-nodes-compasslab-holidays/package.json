@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab-holidays",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n node for Public Holidays and Business Days (CompassLab): Public holidays for 250 countries and regions, plus business-day math: is it a working day, add days, count days.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-holidays#readme",

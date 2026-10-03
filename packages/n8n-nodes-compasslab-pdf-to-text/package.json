@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab-pdf-to-text",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n node for PDF to Text and Markdown (CompassLab): Extract the text of a PDF (URL or file) as plain text, Markdown or page by page, with metadata and scanned-page flags.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab/tree/main/packages/n8n-nodes-compasslab-pdf-to-text#readme",

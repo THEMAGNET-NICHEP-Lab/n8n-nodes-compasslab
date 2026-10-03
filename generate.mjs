@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const REPO = 'https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab';
 const AUTHOR = { name: 'CompassLab', email: 'jaouchamouad@proton.me' }; // public support address, required by n8n's linter
-const VERSION = '0.1.0';
+const VERSION = '0.1.1';
 const LEGAL = {
 	holidays: 'https://eu-business-validator.onrender.com',
 	email: 'https://email-validator-8cgg.onrender.com',
@@ -59,7 +59,7 @@ const PRODUCTS = [
 		legal: LEGAL.email,
 		colour: '#1F6FEB',
 		glyph: '@',
-		categories: ['Marketing', 'Utility'],
+		categories: ['Marketing & Content', 'Utility'],
 		description:
 			'Validate email addresses: syntax, MX records, disposable and role addresses, free providers, typo suggestions',
 		keywords: ['email validation', 'email verifier', 'mx check', 'disposable email', 'list cleaning'],
@@ -108,7 +108,7 @@ const PRODUCTS = [
 		legal: LEGAL.web,
 		colour: '#CF222E',
 		glyph: 'A',
-		categories: ['Marketing', 'Utility'],
+		categories: ['Marketing & Content', 'Utility'],
 		description:
 			'Turn any web page or PDF link into clean Markdown and text, with title, author, date and language',
 		keywords: ['article extractor', 'url to markdown', 'web scraping', 'content extraction', 'rag'],
@@ -132,7 +132,7 @@ const PRODUCTS = [
 		legal: LEGAL.web,
 		colour: '#BF8700',
 		glyph: 'L',
-		categories: ['Marketing', 'Utility'],
+		categories: ['Marketing & Content', 'Utility'],
 		description:
 			'Link previews for any URL: title, description, image, favicon, site name and canonical URL, within 5 seconds',
 		keywords: ['link preview', 'url metadata', 'open graph', 'unfurl', 'og image'],
@@ -155,7 +155,7 @@ const PRODUCTS = [
 		legal: LEGAL.web,
 		colour: '#0969DA',
 		glyph: 'C',
-		categories: ['Sales', 'Marketing'],
+		categories: ['Sales', 'Marketing & Content'],
 		description:
 			"Find a company's published business emails, phones, social profiles, address and VAT ID from its domain",
 		keywords: ['contact extractor', 'lead enrichment', 'company contacts', 'b2b leads', 'crm enrichment'],
@@ -179,7 +179,7 @@ const PRODUCTS = [
 		legal: LEGAL.web,
 		colour: '#E16F24',
 		glyph: 'S',
-		categories: ['Sales', 'Marketing'],
+		categories: ['Sales', 'Marketing & Content'],
 		description:
 			"Find a company's official LinkedIn, X, Instagram, YouTube, TikTok, GitHub and more from its domain",
 		keywords: ['social links', 'company social profiles', 'linkedin company', 'lead enrichment', 'social media'],
@@ -463,7 +463,8 @@ Built with the \`n8n-node\` CLI (n8n Nodes API version 1). No runtime dependenci
 
 ## Version history
 
-- **${VERSION}**: first release.
+- **0.1.1**: node category renamed to n8n's current list.
+- **0.1.0**: first release.
 
 ## License
 
