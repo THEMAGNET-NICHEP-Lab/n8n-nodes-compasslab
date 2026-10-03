@@ -492,6 +492,7 @@ function packageJson(p, pkg) {
 				prepublishOnly: 'n8n-node prerelease',
 			},
 			files: ['dist'],
+			publishConfig: { access: 'public' },
 			n8n: {
 				n8nNodesApiVersion: 1,
 				strict: true,
