@@ -1,6 +1,5 @@
 import { NodeConnectionTypes, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
 import { operations } from './operations';
-import { apiMarketTest, rapidApiTest } from './shared/credentialTest';
 import { withErrorHandling } from './shared/transport';
 
 export class CompassLabHolidays implements INodeType {
@@ -23,13 +22,11 @@ export class CompassLabHolidays implements INodeType {
 			{
 				name: 'compassLabHolidaysApiMarketApi',
 				required: true,
-				testedBy: 'apiMarketTest',
 				displayOptions: { show: { authentication: ['apiMarket'] } },
 			},
 			{
 				name: 'compassLabHolidaysRapidApiApi',
 				required: true,
-				testedBy: 'rapidApiTest',
 				displayOptions: { show: { authentication: ['rapidApi'] } },
 			},
 		],
@@ -37,7 +34,7 @@ export class CompassLabHolidays implements INodeType {
 			headers: {
 				Accept: 'application/json',
 				// Lets us count the calls that come from n8n; no user data
-				'X-CompassLab-Client': 'n8n-nodes-compasslab-holidays/0.1.2',
+				'X-CompassLab-Client': 'n8n-nodes-compasslab-holidays/0.1.3',
 			},
 		},
 		properties: [
@@ -54,12 +51,5 @@ export class CompassLabHolidays implements INodeType {
 			},
 			...withErrorHandling(operations),
 		],
-	};
-
-	methods = {
-		credentialTest: {
-			apiMarketTest,
-			rapidApiTest,
-		},
 	};
 }

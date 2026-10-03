@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabSocialLinksRapidApiApi implements ICredentialType {
 	name = 'compassLabSocialLinksRapidApiApi';
@@ -32,6 +38,15 @@ export class CompassLabSocialLinksRapidApiApi implements ICredentialType {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://social-links-finder-for-company-profiles.p.rapidapi.com',
+			method: 'GET',
+			url: '/v1/social-links',
+			qs: { domain: 'example.com' },
 		},
 	};
 }

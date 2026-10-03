@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabPdfToTextRapidApiApi implements ICredentialType {
 	name = 'compassLabPdfToTextRapidApiApi';
@@ -31,6 +37,18 @@ export class CompassLabPdfToTextRapidApiApi implements ICredentialType {
 		properties: {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
+			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://pdf-to-text-and-markdown.p.rapidapi.com',
+			method: 'POST',
+			url: '/v1/pdf/text',
+			body: {
+				file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+				pages: '1',
 			},
 		},
 	};

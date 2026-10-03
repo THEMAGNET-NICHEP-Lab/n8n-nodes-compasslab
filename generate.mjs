@@ -14,7 +14,8 @@ const REPO = `${OWNER}/n8n-nodes-compasslab`; // overview of all packages
 // n8n vets each package against its own repo, with the package at the repo root
 const repoOf = (id) => `${OWNER}/n8n-nodes-compasslab-${id}`;
 const AUTHOR = { name: 'CompassLab', email: 'jaouchamouad@proton.me' }; // public support address, required by n8n's linter
-const VERSION = '0.1.2';
+const VERSION = '0.1.3';
+const API_MARKET_STORE = 'https://prod.api.market/api/v1/compasslab-1';
 const LEGAL = {
 	holidays: 'https://eu-business-validator.onrender.com',
 	email: 'https://email-validator-8cgg.onrender.com',
@@ -26,6 +27,8 @@ const LEGAL = {
 const PRODUCTS = [
 	{
 		id: 'holidays',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/holidays/countries' },
 		cls: 'CompassLabHolidays',
 		title: 'CompassLab Holidays',
 		apiTitle: 'Public Holidays and Business Days',
@@ -54,6 +57,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'email-validator',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/email/validate', qs: { email: 'test@example.com', check_dns: false } },
 		cls: 'CompassLabEmailValidator',
 		title: 'CompassLab Email Validator',
 		apiTitle: 'Email Validator with MX and Disposable Check',
@@ -78,6 +83,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'phone-validator',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/phone/validate', qs: { number: '+442079460958' } },
 		cls: 'CompassLabPhoneValidator',
 		title: 'CompassLab Phone Validator',
 		apiTitle: 'Phone Number Validator and Formatter',
@@ -103,6 +110,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'article-extractor',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/extract', qs: { url: 'https://example.com', output: 'text', max_chars: 100 } },
 		cls: 'CompassLabArticleExtractor',
 		title: 'CompassLab Article Extractor',
 		apiTitle: 'Article Extractor to Clean Text and Markdown',
@@ -127,6 +136,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'link-preview',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/preview', qs: { url: 'https://example.com' } },
 		cls: 'CompassLabLinkPreview',
 		title: 'CompassLab Link Preview',
 		apiTitle: 'Link Preview and URL Metadata',
@@ -150,6 +161,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'contact-extractor',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/contacts', qs: { domain: 'example.com', max_pages: 1 } },
 		cls: 'CompassLabContactExtractor',
 		title: 'CompassLab Contact Extractor',
 		apiTitle: 'Website Contact Extractor for Emails and Phones',
@@ -174,6 +187,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'social-links',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/social-links', qs: { domain: 'example.com' } },
 		cls: 'CompassLabSocialLinks',
 		title: 'CompassLab Social Links',
 		apiTitle: 'Social Links Finder for Company Profiles',
@@ -199,6 +214,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'tech-stack',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/tech-stack', qs: { url: 'https://example.com', dns: false } },
 		cls: 'CompassLabTechStack',
 		title: 'CompassLab Tech Stack',
 		apiTitle: 'Website Technology Stack Detector',
@@ -223,6 +240,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'qr-barcode',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'GET', url: '/v1/qr', qs: { data: 'test', format: 'svg' } },
 		cls: 'CompassLabQrBarcode',
 		title: 'CompassLab QR and Barcode',
 		apiTitle: 'QR Code and Barcode Generator and Reader',
@@ -248,6 +267,8 @@ const PRODUCTS = [
 	},
 	{
 		id: 'pdf-to-text',
+		// The credential test: one cheap call to this API (n8n needs a 2xx answer)
+		testCall: { method: 'POST', url: '/v1/pdf/text', body: { file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', pages: '1' } },
 		cls: 'CompassLabPdfToText',
 		title: 'CompassLab PDF to Text',
 		apiTitle: 'PDF to Text and Markdown',
@@ -300,7 +321,13 @@ function credential(p, kind) {
 	const cls = `${p.cls}${kind}Api`;
 	const where = apiMarket ? 'api.market' : 'RapidAPI';
 	const header = apiMarket ? 'x-api-market-key' : 'x-rapidapi-key';
-	return `import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+	return `import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class ${cls} implements ICredentialType {
 	name = '${lower(cls)}';
@@ -332,6 +359,10 @@ export class ${cls} implements ICredentialType {
 			},
 		},
 	};
+
+	test: ICredentialTestRequest = {
+		request: { baseURL: '${apiMarket ? `${API_MARKET_STORE}/${p.slug}` : `https://${p.host}`}', ${JSON.stringify(p.testCall).slice(1, -1)} },
+	};
 }
 `;
 }
@@ -341,7 +372,6 @@ function node(p) {
 	const rapidCred = lower(`${p.cls}RapidApiApi`);
 	return `import { NodeConnectionTypes, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
 import { operations } from './operations';
-import { apiMarketTest, rapidApiTest } from './shared/credentialTest';
 import { withErrorHandling } from './shared/transport';
 
 export class ${p.cls} implements INodeType {
@@ -363,13 +393,11 @@ export class ${p.cls} implements INodeType {
 			{
 				name: '${apiMarketCred}',
 				required: true,
-				testedBy: 'apiMarketTest',
 				displayOptions: { show: { authentication: ['apiMarket'] } },
 			},
 			{
 				name: '${rapidCred}',
 				required: true,
-				testedBy: 'rapidApiTest',
 				displayOptions: { show: { authentication: ['rapidApi'] } },
 			},
 		],
@@ -394,13 +422,6 @@ export class ${p.cls} implements INodeType {
 			},
 			...withErrorHandling(operations),
 		],
-	};
-
-	methods = {
-		credentialTest: {
-			apiMarketTest,
-			rapidApiTest,
-		},
 	};
 }
 `;
@@ -440,7 +461,7 @@ ${p.apiTitle} is sold on two marketplaces. Pick one; the node works with both, a
 2. Subscribe to the free BASIC plan and copy your \`X-RapidAPI-Key\` from the playground.
 3. In n8n, create a **${p.title} (RapidAPI) API** credential and paste the key.
 
-In the node, choose the same **Marketplace** as your credential. The credential test checks your key without using any of your quota.
+In the node, choose the same **Marketplace** as your credential. The credential test makes one small call to the API, which counts as one call on your plan.
 
 ## Usage
 
@@ -466,6 +487,7 @@ Built with the \`n8n-node\` CLI (n8n Nodes API version 1). No runtime dependenci
 
 ## Version history
 
+- **0.1.3**: the credential test is a request in the credential (n8n's standard).
 - **0.1.2**: each package now has its own repository.
 - **0.1.1**: node category renamed to n8n's current list.
 - **0.1.0**: first release.
@@ -563,7 +585,7 @@ for (const p of PRODUCTS) {
 	write(join(nodeDir, `${p.cls}.node.json`), codex(p));
 	write(join(nodeDir, 'operations.ts'), readFileSync(join(ROOT, 'src', 'products', `${p.id}.ts`), 'utf8'));
 	write(join(nodeDir, 'shared', 'config.ts'), config(p));
-	for (const f of ['transport.ts', 'credentialTest.ts']) {
+	for (const f of ['transport.ts']) {
 		write(join(nodeDir, 'shared', f), readFileSync(join(ROOT, 'src', 'shared', f), 'utf8'));
 	}
 }

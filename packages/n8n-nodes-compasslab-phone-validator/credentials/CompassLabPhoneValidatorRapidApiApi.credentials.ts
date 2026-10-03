@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabPhoneValidatorRapidApiApi implements ICredentialType {
 	name = 'compassLabPhoneValidatorRapidApiApi';
@@ -32,6 +38,15 @@ export class CompassLabPhoneValidatorRapidApiApi implements ICredentialType {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://phone-number-validator-and-formatter1.p.rapidapi.com',
+			method: 'GET',
+			url: '/v1/phone/validate',
+			qs: { number: '+442079460958' },
 		},
 	};
 }

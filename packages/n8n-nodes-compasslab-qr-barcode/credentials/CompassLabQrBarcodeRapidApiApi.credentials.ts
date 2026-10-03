@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabQrBarcodeRapidApiApi implements ICredentialType {
 	name = 'compassLabQrBarcodeRapidApiApi';
@@ -29,6 +35,15 @@ export class CompassLabQrBarcodeRapidApiApi implements ICredentialType {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://qr-code-and-barcode-generator-and-reader.p.rapidapi.com',
+			method: 'GET',
+			url: '/v1/qr',
+			qs: { data: 'test', format: 'svg' },
 		},
 	};
 }

@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabPdfToTextApiMarketApi implements ICredentialType {
 	name = 'compassLabPdfToTextApiMarketApi';
@@ -31,6 +37,18 @@ export class CompassLabPdfToTextApiMarketApi implements ICredentialType {
 		properties: {
 			headers: {
 				'x-api-market-key': '={{$credentials.apiKey}}',
+			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://prod.api.market/api/v1/compasslab-1/pdf-to-text',
+			method: 'POST',
+			url: '/v1/pdf/text',
+			body: {
+				file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+				pages: '1',
 			},
 		},
 	};

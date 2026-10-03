@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabArticleExtractorRapidApiApi implements ICredentialType {
 	name = 'compassLabArticleExtractorRapidApiApi';
@@ -32,6 +38,15 @@ export class CompassLabArticleExtractorRapidApiApi implements ICredentialType {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://article-extractor-to-clean-text-and-markdown.p.rapidapi.com',
+			method: 'GET',
+			url: '/v1/extract',
+			qs: { url: 'https://example.com', output: 'text', max_chars: 100 },
 		},
 	};
 }

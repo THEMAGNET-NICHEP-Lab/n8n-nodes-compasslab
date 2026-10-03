@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabEmailValidatorRapidApiApi implements ICredentialType {
 	name = 'compassLabEmailValidatorRapidApiApi';
@@ -32,6 +38,15 @@ export class CompassLabEmailValidatorRapidApiApi implements ICredentialType {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://email-validator-with-mx-and-disposable-check.p.rapidapi.com',
+			method: 'GET',
+			url: '/v1/email/validate',
+			qs: { email: 'test@example.com', check_dns: false },
 		},
 	};
 }

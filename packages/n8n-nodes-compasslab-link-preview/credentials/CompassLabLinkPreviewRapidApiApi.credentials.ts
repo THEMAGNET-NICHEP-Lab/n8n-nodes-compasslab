@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabLinkPreviewRapidApiApi implements ICredentialType {
 	name = 'compassLabLinkPreviewRapidApiApi';
@@ -32,6 +38,15 @@ export class CompassLabLinkPreviewRapidApiApi implements ICredentialType {
 			headers: {
 				'x-rapidapi-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://link-preview-and-url-metadata2.p.rapidapi.com',
+			method: 'GET',
+			url: '/v1/preview',
+			qs: { url: 'https://example.com' },
 		},
 	};
 }

@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab-link-preview",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "n8n node for Link Preview and URL Metadata (CompassLab): Link previews for any URL: title, description, image, favicon, site name and canonical URL, within 5 seconds.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab-link-preview#readme",

@@ -1,4 +1,10 @@
-import type { IAuthenticateGeneric, Icon, ICredentialType, INodeProperties } from 'n8n-workflow';
+import type {
+	IAuthenticateGeneric,
+	Icon,
+	ICredentialTestRequest,
+	ICredentialType,
+	INodeProperties,
+} from 'n8n-workflow';
 
 export class CompassLabQrBarcodeApiMarketApi implements ICredentialType {
 	name = 'compassLabQrBarcodeApiMarketApi';
@@ -29,6 +35,15 @@ export class CompassLabQrBarcodeApiMarketApi implements ICredentialType {
 			headers: {
 				'x-api-market-key': '={{$credentials.apiKey}}',
 			},
+		},
+	};
+
+	test: ICredentialTestRequest = {
+		request: {
+			baseURL: 'https://prod.api.market/api/v1/compasslab-1/qr-barcode',
+			method: 'GET',
+			url: '/v1/qr',
+			qs: { data: 'test', format: 'svg' },
 		},
 	};
 }
