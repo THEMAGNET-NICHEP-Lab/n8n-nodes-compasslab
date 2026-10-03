@@ -1,0 +1,164 @@
+{
+ "name": "Turn PDF invoices from Gmail into text and log them in Google Sheets",
+ "nodes": [
+  {
+   "id": "about-this-workflow",
+   "name": "About this workflow",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -640,
+    100
+   ],
+   "parameters": {
+    "content": "## PDF invoices from Gmail to text\n\nWhen an email with a PDF arrives, this workflow extracts the text of the PDF (no OCR needed for digital invoices) and logs it in a Google Sheet with the sender, subject and page count. Scanned pages are listed so you know when a document needs OCR.\n\n### Setup (5 minutes)\n1. Connect Gmail in **New email with a PDF**. The search `has:attachment filename:pdf` only picks emails with a PDF; narrow it, e.g. `from:billing@supplier.com`.\n2. Make a sheet with the columns `received`, `from`, `subject`, `pages`, `scanned_pages`, `text` and pick it in **Log the invoice**.\n3. In **PDF to text**, create a CompassLab PDF to Text credential: free plan on api.market or RapidAPI.\n\nOnly the first attachment is read. Next step idea: send `text` to an AI node to pull out the invoice number, date and total.",
+    "width": 560,
+    "height": 520,
+    "color": "6"
+   }
+  },
+  {
+   "id": "new-email-with-a-pdf",
+   "name": "New email with a PDF",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {
+    "url": "https://www.rfc-editor.org/rfc/rfc9309.pdf",
+    "options": {
+     "response": {
+      "response": {
+       "responseFormat": "file",
+       "outputPropertyName": "attachment_0"
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "pdf-to-text",
+   "name": "PDF to text",
+   "type": "n8n-nodes-compasslab-pdf-to-text.compassLabPdfToText",
+   "typeVersion": 1,
+   "position": [
+    240,
+    300
+   ],
+   "parameters": {
+    "operation": "extractText",
+    "source": "binary",
+    "binaryPropertyName": "attachment_0",
+    "format": "text"
+   }
+  },
+  {
+   "id": "log-the-invoice",
+   "name": "Log the invoice",
+   "type": "n8n-nodes-base.set",
+   "typeVersion": 3.4,
+   "position": [
+    480,
+    300
+   ],
+   "parameters": {
+    "assignments": {
+     "assignments": [
+      {
+       "id": "received",
+       "name": "received",
+       "value": "={{ $now.toISO() }}",
+       "type": "string"
+      },
+      {
+       "id": "from",
+       "name": "from",
+       "value": "={{ $('New email with a PDF').item.json.from?.text ?? '' }}",
+       "type": "string"
+      },
+      {
+       "id": "subject",
+       "name": "subject",
+       "value": "={{ $('New email with a PDF').item.json.subject ?? '' }}",
+       "type": "string"
+      },
+      {
+       "id": "pages",
+       "name": "pages",
+       "value": "={{ $json.page_count }}",
+       "type": "string"
+      },
+      {
+       "id": "scanned_pages",
+       "name": "scanned_pages",
+       "value": "={{ $json.scanned_pages.join(', ') }}",
+       "type": "string"
+      },
+      {
+       "id": "text",
+       "name": "text",
+       "value": "={{ ($json.text ?? '').slice(0, 45000) }}",
+       "type": "string"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "start",
+   "name": "Start",
+   "type": "n8n-nodes-base.manualTrigger",
+   "typeVersion": 1,
+   "position": [
+    -240,
+    300
+   ],
+   "parameters": {}
+  }
+ ],
+ "connections": {
+  "Start": {
+   "main": [
+    [
+     {
+      "node": "New email with a PDF",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "New email with a PDF": {
+   "main": [
+    [
+     {
+      "node": "PDF to text",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "PDF to text": {
+   "main": [
+    [
+     {
+      "node": "Log the invoice",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false,
+  "description": "Extracts the text of PDF attachments from Gmail with CompassLab PDF to Text and logs sender, subject, pages, scanned pages and text in a Google Sheet."
+ }
+}

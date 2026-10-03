@@ -1,0 +1,188 @@
+{
+ "name": "Turn PDF invoices from Gmail into text and log them in Google Sheets",
+ "nodes": [
+  {
+   "id": "about-this-workflow",
+   "name": "About this workflow",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -640,
+    100
+   ],
+   "parameters": {
+    "content": "## PDF invoices from Gmail to text\n\nWhen an email with a PDF arrives, this workflow extracts the text of the PDF (no OCR needed for digital invoices) and logs it in a Google Sheet with the sender, subject and page count. Scanned pages are listed so you know when a document needs OCR.\n\n### Setup (5 minutes)\n1. Connect Gmail in **New email with a PDF**. The search `has:attachment filename:pdf` only picks emails with a PDF; narrow it, e.g. `from:billing@supplier.com`.\n2. Make a sheet with the columns `received`, `from`, `subject`, `pages`, `scanned_pages`, `text` and pick it in **Log the invoice**.\n3. In **PDF to text**, create a CompassLab PDF to Text credential: free plan on api.market or RapidAPI.\n\nOnly the first attachment is read. Next step idea: send `text` to an AI node to pull out the invoice number, date and total.",
+    "width": 560,
+    "height": 520,
+    "color": "6"
+   }
+  },
+  {
+   "id": "new-email-with-a-pdf",
+   "name": "New email with a PDF",
+   "type": "n8n-nodes-base.gmailTrigger",
+   "typeVersion": 1.3,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {
+    "pollTimes": {
+     "item": [
+      {
+       "mode": "everyMinute"
+      }
+     ]
+    },
+    "simple": false,
+    "filters": {
+     "q": "has:attachment filename:pdf"
+    },
+    "options": {
+     "downloadAttachments": true
+    }
+   }
+  },
+  {
+   "id": "pdf-to-text",
+   "name": "PDF to text",
+   "type": "n8n-nodes-compasslab-pdf-to-text.compassLabPdfToText",
+   "typeVersion": 1,
+   "position": [
+    240,
+    300
+   ],
+   "parameters": {
+    "operation": "extractText",
+    "source": "binary",
+    "binaryPropertyName": "attachment_0",
+    "format": "text"
+   }
+  },
+  {
+   "id": "log-the-invoice",
+   "name": "Log the invoice",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.7,
+   "position": [
+    480,
+    300
+   ],
+   "parameters": {
+    "operation": "append",
+    "documentId": {
+     "__rl": true,
+     "value": "",
+     "mode": "list",
+     "cachedResultName": ""
+    },
+    "sheetName": {
+     "__rl": true,
+     "value": "gid=0",
+     "mode": "list",
+     "cachedResultName": "Sheet1"
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "received": "={{ $now.toISO() }}",
+      "from": "={{ $('New email with a PDF').item.json.from?.text ?? '' }}",
+      "subject": "={{ $('New email with a PDF').item.json.subject ?? '' }}",
+      "pages": "={{ $json.page_count }}",
+      "scanned_pages": "={{ $json.scanned_pages.join(', ') }}",
+      "text": "={{ ($json.text ?? '').slice(0, 45000) }}"
+     },
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "received",
+       "displayName": "received",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "from",
+       "displayName": "from",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "subject",
+       "displayName": "subject",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "pages",
+       "displayName": "pages",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "scanned_pages",
+       "displayName": "scanned_pages",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "text",
+       "displayName": "text",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    },
+    "options": {}
+   }
+  }
+ ],
+ "connections": {
+  "New email with a PDF": {
+   "main": [
+    [
+     {
+      "node": "PDF to text",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "PDF to text": {
+   "main": [
+    [
+     {
+      "node": "Log the invoice",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false,
+  "description": "Extracts the text of PDF attachments from Gmail with CompassLab PDF to Text and logs sender, subject, pages, scanned pages and text in a Google Sheet."
+ }
+}

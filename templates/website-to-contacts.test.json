@@ -1,0 +1,223 @@
+{
+ "name": "Website to contacts: enrich a lead list in Google Sheets",
+ "nodes": [
+  {
+   "id": "about-this-workflow",
+   "name": "About this workflow",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -640,
+    100
+   ],
+   "parameters": {
+    "content": "## Website to contacts: enrich a lead list\n\nFor each company website in a Google Sheet, this workflow finds the contact details the company publishes itself (business email, phone, LinkedIn page, legal name, VAT ID) and writes them into the same row.\n\n### Setup (5 minutes)\n1. Your sheet needs a column `website` (a domain or URL). Add the columns `company`, `email`, `phone`, `linkedin`, `vat_id`, `contacts_status`.\n2. Pick your sheet in **Read leads** and **Write the contacts**.\n3. In **Find contacts**, create a CompassLab Contact Extractor credential: free plan on api.market or RapidAPI.\n\nOnly business contacts are returned (no personal emails), robots.txt is respected, and `contacts_status` tells you when a site publishes nothing or blocks bots.",
+    "width": 560,
+    "height": 520,
+    "color": "6"
+   }
+  },
+  {
+   "id": "every-day",
+   "name": "Every day",
+   "type": "n8n-nodes-base.scheduleTrigger",
+   "typeVersion": 1.2,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {
+    "rule": {
+     "interval": [
+      {
+       "triggerAtHour": 8
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "read-leads",
+   "name": "Read leads",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    300
+   ],
+   "parameters": {
+    "jsCode": "return [{\"json\": {\"website\": \"python.org\"}}, {\"json\": {\"website\": \"n8n.io\"}}, {\"json\": {\"website\": \"done.example\", \"contacts_status\": \"ok\"}}];"
+   }
+  },
+  {
+   "id": "only-new-leads",
+   "name": "Only new leads",
+   "type": "n8n-nodes-base.filter",
+   "typeVersion": 2.2,
+   "position": [
+    440,
+    300
+   ],
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "1",
+       "leftValue": "={{ $json.website }}",
+       "rightValue": "",
+       "operator": {
+        "type": "string",
+        "operation": "notEmpty",
+        "singleValue": true
+       }
+      },
+      {
+       "id": "2",
+       "leftValue": "={{ $json.contacts_status }}",
+       "rightValue": "",
+       "operator": {
+        "type": "string",
+        "operation": "empty",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "find-contacts",
+   "name": "Find contacts",
+   "type": "n8n-nodes-compasslab-contact-extractor.compassLabContactExtractor",
+   "typeVersion": 1,
+   "position": [
+    660,
+    300
+   ],
+   "parameters": {
+    "operation": "findContacts",
+    "domain": "={{ $json.website }}"
+   }
+  },
+  {
+   "id": "write-the-contacts",
+   "name": "Write the contacts",
+   "type": "n8n-nodes-base.set",
+   "typeVersion": 3.4,
+   "position": [
+    880,
+    300
+   ],
+   "parameters": {
+    "assignments": {
+     "assignments": [
+      {
+       "id": "website",
+       "name": "website",
+       "value": "={{ $('Only new leads').item.json.website }}",
+       "type": "string"
+      },
+      {
+       "id": "company",
+       "name": "company",
+       "value": "={{ $json.company?.legal_name || $json.company?.name || '' }}",
+       "type": "string"
+      },
+      {
+       "id": "email",
+       "name": "email",
+       "value": "={{ $json.emails?.[0]?.value ?? '' }}",
+       "type": "string"
+      },
+      {
+       "id": "phone",
+       "name": "phone",
+       "value": "={{ $json.phones?.[0]?.e164 ?? '' }}",
+       "type": "string"
+      },
+      {
+       "id": "linkedin",
+       "name": "linkedin",
+       "value": "={{ $json.social_profiles?.find(p => p.network === 'linkedin')?.url ?? '' }}",
+       "type": "string"
+      },
+      {
+       "id": "vat_id",
+       "name": "vat_id",
+       "value": "={{ $json.company?.vat_id ?? '' }}",
+       "type": "string"
+      },
+      {
+       "id": "contacts_status",
+       "name": "contacts_status",
+       "value": "={{ $json.status }}",
+       "type": "string"
+      }
+     ]
+    },
+    "options": {}
+   }
+  }
+ ],
+ "connections": {
+  "Every day": {
+   "main": [
+    [
+     {
+      "node": "Read leads",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Read leads": {
+   "main": [
+    [
+     {
+      "node": "Only new leads",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Only new leads": {
+   "main": [
+    [
+     {
+      "node": "Find contacts",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Find contacts": {
+   "main": [
+    [
+     {
+      "node": "Write the contacts",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false,
+  "description": "Finds the business email, phone, LinkedIn page, legal name and VAT ID that companies publish on their websites with CompassLab Contact Extractor and writes them into a Google Sheet."
+ }
+}

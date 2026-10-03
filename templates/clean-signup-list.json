@@ -1,0 +1,252 @@
+{
+ "name": "Clean a signup list: validate emails and fix typos in Google Sheets",
+ "nodes": [
+  {
+   "id": "about-this-workflow",
+   "name": "About this workflow",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -640,
+    120
+   ],
+   "parameters": {
+    "content": "## Clean a signup list\n\nEvery day this workflow checks the new email addresses in a Google Sheet and writes the verdict next to each one: `valid`, `invalid`, `risky` (disposable address) or `unknown`, plus a typo fix such as gmial.com -> gmail.com.\n\n### Setup (5 minutes)\n1. Your sheet needs a column `email`. Add the columns `email_status`, `email_suggestion` and `email_checked_at`.\n2. Pick your sheet in **Read signups** and **Write the result**.\n3. In **Validate email**, create a CompassLab Email Validator credential: free plan on api.market or RapidAPI.\n\nRows that already have an `email_status` are skipped, so each address is checked once.",
+    "width": 560,
+    "height": 480,
+    "color": "6"
+   }
+  },
+  {
+   "id": "every-day",
+   "name": "Every day",
+   "type": "n8n-nodes-base.scheduleTrigger",
+   "typeVersion": 1.2,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {
+    "rule": {
+     "interval": [
+      {
+       "triggerAtHour": 7
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "read-signups",
+   "name": "Read signups",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.7,
+   "position": [
+    220,
+    300
+   ],
+   "parameters": {
+    "documentId": {
+     "__rl": true,
+     "value": "",
+     "mode": "list",
+     "cachedResultName": ""
+    },
+    "sheetName": {
+     "__rl": true,
+     "value": "gid=0",
+     "mode": "list",
+     "cachedResultName": "Sheet1"
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "only-unchecked-rows",
+   "name": "Only unchecked rows",
+   "type": "n8n-nodes-base.filter",
+   "typeVersion": 2.2,
+   "position": [
+    440,
+    300
+   ],
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "1",
+       "leftValue": "={{ $json.email }}",
+       "rightValue": "",
+       "operator": {
+        "type": "string",
+        "operation": "notEmpty",
+        "singleValue": true
+       }
+      },
+      {
+       "id": "2",
+       "leftValue": "={{ $json.email_status }}",
+       "rightValue": "",
+       "operator": {
+        "type": "string",
+        "operation": "empty",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "validate-email",
+   "name": "Validate email",
+   "type": "n8n-nodes-compasslab-email-validator.compassLabEmailValidator",
+   "typeVersion": 1,
+   "position": [
+    660,
+    300
+   ],
+   "parameters": {
+    "operation": "validate",
+    "email": "={{ $json.email }}"
+   }
+  },
+  {
+   "id": "write-the-result",
+   "name": "Write the result",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.7,
+   "position": [
+    880,
+    300
+   ],
+   "parameters": {
+    "operation": "update",
+    "documentId": {
+     "__rl": true,
+     "value": "",
+     "mode": "list",
+     "cachedResultName": ""
+    },
+    "sheetName": {
+     "__rl": true,
+     "value": "gid=0",
+     "mode": "list",
+     "cachedResultName": "Sheet1"
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "email": "={{ $('Only unchecked rows').item.json.email }}",
+      "email_status": "={{ $json.status }}",
+      "email_suggestion": "={{ $json.did_you_mean ?? '' }}",
+      "email_checked_at": "={{ $now.toISODate() }}"
+     },
+     "matchingColumns": [
+      "email"
+     ],
+     "schema": [
+      {
+       "id": "email",
+       "displayName": "email",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "email_status",
+       "displayName": "email_status",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "email_suggestion",
+       "displayName": "email_suggestion",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      },
+      {
+       "id": "email_checked_at",
+       "displayName": "email_checked_at",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "canBeUsedToMatch": true
+      }
+     ]
+    },
+    "options": {}
+   }
+  }
+ ],
+ "connections": {
+  "Every day": {
+   "main": [
+    [
+     {
+      "node": "Read signups",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Read signups": {
+   "main": [
+    [
+     {
+      "node": "Only unchecked rows",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Only unchecked rows": {
+   "main": [
+    [
+     {
+      "node": "Validate email",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Validate email": {
+   "main": [
+    [
+     {
+      "node": "Write the result",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false,
+  "description": "Validates new email addresses in a Google Sheet every day (MX records, disposable and role addresses, typo suggestions) with the CompassLab Email Validator and writes the verdict back."
+ }
+}
