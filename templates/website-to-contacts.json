@@ -11,7 +11,7 @@
     100
    ],
    "parameters": {
-    "content": "## Website to contacts: enrich a lead list\n\nFor each company website in a Google Sheet, this workflow finds the contact details the company publishes itself (business email, phone, LinkedIn page, legal name, VAT ID) and writes them into the same row.\n\n### Setup (5 minutes)\n1. Your sheet needs a column `website` (a domain or URL). Add the columns `company`, `email`, `phone`, `linkedin`, `vat_id`, `contacts_status`.\n2. Pick your sheet in **Read leads** and **Write the contacts**.\n3. In **Find contacts**, create a CompassLab Contact Extractor credential: free plan on api.market or RapidAPI.\n\nOnly business contacts are returned (no personal emails), robots.txt is respected, and `contacts_status` tells you when a site publishes nothing or blocks bots.",
+    "content": "## Website to contacts: enrich a lead list\n\nFor each company website in a Google Sheet, this workflow finds the contact details the company publishes itself (business email, phone, LinkedIn page, legal name, VAT ID) and writes them into the same row.\n\n### Setup (5 minutes)\n1. Your sheet needs a column `website` (a domain or URL). Add the columns `company`, `email`, `phone`, `linkedin`, `vat_id`, `contacts_status`.\n2. Pick your sheet in **Read leads** and **Write the contacts**.\n3. In **Find contacts**, create a CompassLab credential: free plan on api.market or RapidAPI.\n\nOnly business contacts are returned (no personal emails), robots.txt is respected, and `contacts_status` tells you when a site publishes nothing or blocks bots.",
     "width": 560,
     "height": 520,
     "color": "6"
@@ -108,13 +108,14 @@
   {
    "id": "find-contacts",
    "name": "Find contacts",
-   "type": "n8n-nodes-compasslab-contact-extractor.compassLabContactExtractor",
+   "type": "n8n-nodes-compasslab.compassLab",
    "typeVersion": 1,
    "position": [
     660,
     300
    ],
    "parameters": {
+    "resource": "contact",
     "operation": "findContacts",
     "domain": "={{ $json.website }}"
    }
@@ -277,6 +278,6 @@
  },
  "meta": {
   "templateCredsSetupCompleted": false,
-  "description": "Finds the business email, phone, LinkedIn page, legal name and VAT ID that companies publish on their websites with CompassLab Contact Extractor and writes them into a Google Sheet."
+  "description": "Finds the business email, phone, LinkedIn page, legal name and VAT ID that companies publish on their websites with the CompassLab node (Company Contact) and writes them into a Google Sheet."
  }
 }

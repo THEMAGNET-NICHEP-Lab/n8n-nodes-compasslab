@@ -1,15 +1,67 @@
 {
-	"name": "n8n-nodes-compasslab-workspace",
-	"private": true,
-	"description": "n8n community nodes for the CompassLab APIs, one package per API. Run `npm run generate` after editing src/.",
+	"name": "n8n-nodes-compasslab",
+	"version": "0.2.0",
+	"description": "n8n node for the CompassLab APIs: email and phone validation, public holidays and business days, article and PDF extraction, link previews, company contacts, social links, tech stack detection, QR codes and barcodes.",
 	"license": "MIT",
-	"workspaces": [
-		"packages/*"
+	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab#readme",
+	"keywords": [
+		"n8n-community-node-package",
+		"n8n",
+		"compasslab",
+		"public holidays",
+		"business days",
+		"email validation",
+		"email verifier",
+		"phone validation",
+		"phone number formatter",
+		"article extractor",
+		"url to markdown",
+		"link preview",
+		"url metadata",
+		"contact extractor",
+		"lead enrichment",
+		"social links",
+		"company social profiles",
+		"tech stack",
+		"technology lookup",
+		"qr code",
+		"barcode",
+		"pdf to text",
+		"pdf to markdown"
 	],
+	"author": {
+		"name": "CompassLab",
+		"email": "jaouchamouad@proton.me"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab.git"
+	},
 	"scripts": {
-		"generate": "node generate.mjs && prettier --write \"packages/*/{nodes,credentials}/**/*.ts\" --log-level warn",
-		"build": "npm run build --workspaces",
-		"lint": "npm run lint --workspaces"
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/CompassLabApiMarketApi.credentials.js",
+			"dist/credentials/CompassLabRapidApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/CompassLab/CompassLab.node.js"
+		]
 	},
 	"devDependencies": {
 		"@n8n/node-cli": "^0.50.4",
@@ -17,5 +69,8 @@
 		"prettier": "3.8.3",
 		"release-it": "20.2.0",
 		"typescript": "5.9.3"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
 	}
 }

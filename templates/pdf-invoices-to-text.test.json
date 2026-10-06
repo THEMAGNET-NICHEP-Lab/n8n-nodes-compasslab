@@ -11,7 +11,7 @@
     100
    ],
    "parameters": {
-    "content": "## PDF invoices from Gmail to text\n\nWhen an email with a PDF arrives, this workflow extracts the text of the PDF (no OCR needed for digital invoices) and logs it in a Google Sheet with the sender, subject and page count. Scanned pages are listed so you know when a document needs OCR.\n\n### Setup (5 minutes)\n1. Connect Gmail in **New email with a PDF**. The search `has:attachment filename:pdf` only picks emails with a PDF; narrow it, e.g. `from:billing@supplier.com`.\n2. Make a sheet with the columns `received`, `from`, `subject`, `pages`, `scanned_pages`, `text` and pick it in **Log the invoice**.\n3. In **PDF to text**, create a CompassLab PDF to Text credential: free plan on api.market or RapidAPI.\n\nOnly the first attachment is read. Next step idea: send `text` to an AI node to pull out the invoice number, date and total.",
+    "content": "## PDF invoices from Gmail to text\n\nWhen an email with a PDF arrives, this workflow extracts the text of the PDF (no OCR needed for digital invoices) and logs it in a Google Sheet with the sender, subject and page count. Scanned pages are listed so you know when a document needs OCR.\n\n### Setup (5 minutes)\n1. Connect Gmail in **New email with a PDF**. The search `has:attachment filename:pdf` only picks emails with a PDF; narrow it, e.g. `from:billing@supplier.com`.\n2. Make a sheet with the columns `received`, `from`, `subject`, `pages`, `scanned_pages`, `text` and pick it in **Log the invoice**.\n3. In **PDF to text**, create a CompassLab credential: free plan on api.market or RapidAPI.\n\nOnly the first attachment is read. Next step idea: send `text` to an AI node to pull out the invoice number, date and total.",
     "width": 560,
     "height": 520,
     "color": "6"
@@ -41,13 +41,14 @@
   {
    "id": "pdf-to-text",
    "name": "PDF to text",
-   "type": "n8n-nodes-compasslab-pdf-to-text.compassLabPdfToText",
+   "type": "n8n-nodes-compasslab.compassLab",
    "typeVersion": 1,
    "position": [
     240,
     300
    ],
    "parameters": {
+    "resource": "pdf",
     "operation": "extractText",
     "source": "binary",
     "binaryPropertyName": "attachment_0",
@@ -159,6 +160,6 @@
  },
  "meta": {
   "templateCredsSetupCompleted": false,
-  "description": "Extracts the text of PDF attachments from Gmail with CompassLab PDF to Text and logs sender, subject, pages, scanned pages and text in a Google Sheet."
+  "description": "Extracts the text of PDF attachments from Gmail with the CompassLab node (PDF) and logs sender, subject, pages, scanned pages and text in a Google Sheet."
  }
 }
