@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-compasslab",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "n8n node for the CompassLab APIs: email and phone validation, public holidays and business days, article and PDF extraction, link previews, company contacts, social links, tech stack detection, QR codes and barcodes.",
 	"license": "MIT",
 	"homepage": "https://github.com/THEMAGNET-NICHEP-Lab/n8n-nodes-compasslab#readme",

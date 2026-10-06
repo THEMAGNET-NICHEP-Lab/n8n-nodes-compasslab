@@ -46,7 +46,7 @@ export class CompassLab implements INodeType {
 			headers: {
 				Accept: 'application/json',
 				// Lets us count the calls that come from n8n; no user data
-				'X-CompassLab-Client': 'n8n-nodes-compasslab/0.2.0',
+				'X-CompassLab-Client': 'n8n-nodes-compasslab/0.2.1',
 			},
 		},
 		properties: [

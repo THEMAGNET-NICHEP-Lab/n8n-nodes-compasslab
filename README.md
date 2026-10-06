@@ -159,6 +159,7 @@ Built with the `n8n-node` CLI (n8n Nodes API version 1). No runtime dependencies
 
 ## Version history
 
+- **0.2.1**: republished for the n8n Creator Portal checks (no code change).
 - **0.2.0**: one node with the ten APIs as resources and one credential per marketplace (replaces the ten `n8n-nodes-compasslab-<api>` packages).
 
 ## License
