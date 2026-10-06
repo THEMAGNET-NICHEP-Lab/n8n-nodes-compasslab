@@ -60,11 +60,16 @@ export class CompassLabApiMarketApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: '={{ "https://prod.api.market/api/v1/compasslab-1/" + {"holidays":"public-holidays","email-validator":"email-validator","phone-validator":"phone-validator","article-extractor":"article-extractor","link-preview":"link-preview","contact-extractor":"contact-extractor","social-links":"social-links-finder","tech-stack":"tech-stack-detector","qr-barcode":"qr-barcode","pdf-to-text":"pdf-to-text"}[$credentials.testApi] }}',
+			baseURL:
+				'={{ "https://prod.api.market/api/v1/compasslab-1/" + {"holidays":"public-holidays","email-validator":"email-validator","phone-validator":"phone-validator","article-extractor":"article-extractor","link-preview":"link-preview","contact-extractor":"contact-extractor","social-links":"social-links-finder","tech-stack":"tech-stack-detector","qr-barcode":"qr-barcode","pdf-to-text":"pdf-to-text"}[$credentials.testApi] }}',
 			url: '={{ {"holidays":"/v1/holidays/countries","email-validator":"/v1/email/validate?email=test%40example.com&check_dns=false","phone-validator":"/v1/phone/validate?number=%2B442079460958","article-extractor":"/v1/extract?url=https%3A%2F%2Fexample.com&output=text&max_chars=100","link-preview":"/v1/preview?url=https%3A%2F%2Fexample.com","contact-extractor":"/v1/contacts?domain=example.com&max_pages=1","social-links":"/v1/social-links?domain=example.com","tech-stack":"/v1/tech-stack?url=https%3A%2F%2Fexample.com&dns=false","qr-barcode":"/v1/qr?data=test&format=svg","pdf-to-text":"/v1/pdf/text"}[$credentials.testApi] }}',
 			// n8n resolves expressions in the test request; PDF to Text is the only POST-only API
-			method: '={{ $credentials.testApi === "pdf-to-text" ? "POST" : "GET" }}' as IHttpRequestMethods,
-			body: { file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', pages: '1' },
+			method:
+				'={{ $credentials.testApi === "pdf-to-text" ? "POST" : "GET" }}' as IHttpRequestMethods,
+			body: {
+				file_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+				pages: '1',
+			},
 		},
 	};
 }

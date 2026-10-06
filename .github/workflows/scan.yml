@@ -1,4 +1,4 @@
-# Runs n8n's official community package scanner (the check n8n uses for verification) on the published package.
+# Runs the beta of n8n's community package scanner (the version the Creator Portal uses) (the check n8n uses for verification) on the published package.
 name: Scan published package
 
 on:
@@ -12,4 +12,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-      - run: npx -y @n8n/scan-community-package "$(node -p "require('./package.json').name")"
+      - run: npx -y @n8n/scan-community-package@beta "$(node -p "require('./package.json').name")"

@@ -1,6 +1,5 @@
 import type { INodeProperties } from 'n8n-workflow';
-import {baseURL, ifSet, listExpression } from '../shared/transport';
-
+import { baseURL, ifSet, listExpression } from '../shared/transport';
 
 export const operations: INodeProperties[] = [
 	{
@@ -8,7 +7,7 @@ export const operations: INodeProperties[] = [
 		name: 'operation',
 		type: 'options',
 		noDataExpression: true,
-				options: [
+		options: [
 			{
 				name: 'Validate',
 				value: 'validate',

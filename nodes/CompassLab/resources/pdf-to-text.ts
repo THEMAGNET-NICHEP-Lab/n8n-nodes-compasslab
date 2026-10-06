@@ -1,6 +1,5 @@
 import type { INodeProperties } from 'n8n-workflow';
-import {baseURL, fileSourceFields, sendAsMultipart } from '../shared/transport';
-
+import { baseURL, fileSourceFields, sendAsMultipart } from '../shared/transport';
 
 export const operations: INodeProperties[] = [
 	{
@@ -8,7 +7,7 @@ export const operations: INodeProperties[] = [
 		name: 'operation',
 		type: 'options',
 		noDataExpression: true,
-				options: [
+		options: [
 			{
 				name: 'Extract Text',
 				value: 'extractText',
@@ -42,7 +41,7 @@ export const operations: INodeProperties[] = [
 			{ name: 'Pages', value: 'pages', description: 'One entry per page with its word count' },
 		],
 		default: 'text',
-				routing: { send: { type: 'body', property: 'format' } },
+		routing: { send: { type: 'body', property: 'format' } },
 	},
 	{
 		displayName: 'Options',
@@ -50,7 +49,7 @@ export const operations: INodeProperties[] = [
 		type: 'collection',
 		placeholder: 'Add Option',
 		default: {},
-				options: [
+		options: [
 			{
 				displayName: 'Pages',
 				name: 'pages',

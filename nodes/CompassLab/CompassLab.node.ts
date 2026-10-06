@@ -15,7 +15,10 @@ export class CompassLab implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'CompassLab',
 		name: 'compassLab',
-		icon: { light: 'file:../../icons/compasslab.svg', dark: 'file:../../icons/compasslab.dark.svg' },
+		icon: {
+			light: 'file:../../icons/compasslab.svg',
+			dark: 'file:../../icons/compasslab.dark.svg',
+		},
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',

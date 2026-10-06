@@ -1,5 +1,5 @@
 import type { INodeProperties } from 'n8n-workflow';
-import {baseURL } from '../shared/transport';
+import { baseURL } from '../shared/transport';
 
 const dateOperations = ['isBusinessDay', 'addBusinessDays', 'countBusinessDays'];
 
@@ -9,7 +9,7 @@ export const operations: INodeProperties[] = [
 		name: 'operation',
 		type: 'options',
 		noDataExpression: true,
-				options: [
+		options: [
 			{
 				name: 'Add Business Days',
 				value: 'addBusinessDays',

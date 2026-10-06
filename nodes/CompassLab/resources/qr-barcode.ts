@@ -1,5 +1,5 @@
 import type { INodeProperties } from 'n8n-workflow';
-import {baseURL, fileSourceFields, imageToBinary, sendAsMultipart } from '../shared/transport';
+import { baseURL, fileSourceFields, imageToBinary, sendAsMultipart } from '../shared/transport';
 
 const generate = ['generateQr', 'generateBarcode'];
 
@@ -17,7 +17,7 @@ export const operations: INodeProperties[] = [
 		name: 'operation',
 		type: 'options',
 		noDataExpression: true,
-				options: [
+		options: [
 			{
 				name: 'Generate Barcode',
 				value: 'generateBarcode',
