@@ -1,6 +1,18 @@
 import type { INodeProperties } from 'n8n-workflow';
 import { baseURL, listExpression } from '../shared/transport';
 
+// Optional settings; when not added, nothing is sent and the API's own defaults apply (the same values)
+const options = (send: 'query' | 'body'): INodeProperties[] => [
+	{
+		displayName: 'Include Handles',
+		name: 'include_handles',
+		type: 'boolean',
+		default: true,
+		description: "Whether to also return each account's handle",
+		routing: { send: { type: send, property: 'include_handles' } },
+	},
+];
+
 export const operations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -54,21 +66,21 @@ export const operations: INodeProperties[] = [
 		},
 	},
 	{
-		displayName: 'Include Handles',
-		name: 'include_handles',
-		type: 'boolean',
-		default: true,
-		description: "Whether to also return each account's handle",
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
 		displayOptions: { show: { operation: ['findSocialLinks'] } },
-		routing: { send: { type: 'query', property: 'include_handles' } },
+		options: options('query'),
 	},
 	{
-		displayName: 'Include Handles',
-		name: 'include_handles_batch',
-		type: 'boolean',
-		default: true,
-		description: "Whether to also return each account's handle",
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
 		displayOptions: { show: { operation: ['findSocialLinksMany'] } },
-		routing: { send: { type: 'body', property: 'include_handles' } },
+		options: options('body'),
 	},
 ];

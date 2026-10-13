@@ -1,6 +1,20 @@
 import type { INodeProperties } from 'n8n-workflow';
 import { baseURL, ifSet, listExpression } from '../shared/transport';
 
+// Optional settings; when not added, nothing is sent and the API's own defaults apply (the same values)
+const options = (send: 'query' | 'body'): INodeProperties[] => [
+	{
+		displayName: 'Default Country',
+		name: 'country',
+		type: 'string',
+		default: '',
+		placeholder: 'GB',
+		description:
+			'Two-letter country code used for numbers written without +country code (national format)',
+		routing: { send: { type: send, property: 'country', value: ifSet } },
+	},
+];
+
 export const operations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -53,25 +67,21 @@ export const operations: INodeProperties[] = [
 		routing: { send: { type: 'body', property: 'numbers', value: listExpression('numbers') } },
 	},
 	{
-		displayName: 'Default Country',
-		name: 'country',
-		type: 'string',
-		default: '',
-		placeholder: 'GB',
-		description:
-			'Two-letter country code used for numbers written without +country code (national format)',
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
 		displayOptions: { show: { operation: ['validate'] } },
-		routing: { send: { type: 'query', property: 'country', value: ifSet } },
+		options: options('query'),
 	},
 	{
-		displayName: 'Default Country',
-		name: 'countryBatch',
-		type: 'string',
-		default: '',
-		placeholder: 'GB',
-		description:
-			'Two-letter country code used for numbers written without +country code (national format)',
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
 		displayOptions: { show: { operation: ['validateMany'] } },
-		routing: { send: { type: 'body', property: 'country', value: ifSet } },
+		options: options('body'),
 	},
 ];

@@ -1,6 +1,19 @@
 import type { INodeProperties } from 'n8n-workflow';
 import { baseURL, listExpression } from '../shared/transport';
 
+// Optional settings; when not added, nothing is sent and the API's own defaults apply (the same values)
+const options = (send: 'query' | 'body'): INodeProperties[] => [
+	{
+		displayName: 'Check DNS',
+		name: 'check_dns',
+		type: 'boolean',
+		default: true,
+		description:
+			'Whether to look up MX records. Turn off for syntax and list checks only (faster).',
+		routing: { send: { type: send, property: 'check_dns' } },
+	},
+];
+
 export const operations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -52,22 +65,21 @@ export const operations: INodeProperties[] = [
 		routing: { send: { type: 'body', property: 'emails', value: listExpression('emails') } },
 	},
 	{
-		displayName: 'Check DNS',
-		name: 'check_dns',
-		type: 'boolean',
-		default: true,
-		description:
-			'Whether to look up MX records. Turn off for syntax and list checks only (faster).',
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
 		displayOptions: { show: { operation: ['validate'] } },
-		routing: { send: { type: 'query', property: 'check_dns' } },
+		options: options('query'),
 	},
 	{
-		displayName: 'Check DNS',
-		name: 'check_dns_batch',
-		type: 'boolean',
-		default: true,
-		description: 'Whether to look up MX records for each domain',
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
 		displayOptions: { show: { operation: ['validateMany'] } },
-		routing: { send: { type: 'body', property: 'check_dns' } },
+		options: options('body'),
 	},
 ];

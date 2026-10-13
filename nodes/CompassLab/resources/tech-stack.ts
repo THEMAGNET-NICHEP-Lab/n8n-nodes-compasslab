@@ -30,11 +30,21 @@ export const operations: INodeProperties[] = [
 		routing: { send: { type: 'query', property: 'url' } },
 	},
 	{
-		displayName: 'Check DNS',
-		name: 'dns',
-		type: 'boolean',
-		default: true,
-		description: 'Whether to also read DNS records (hosting, DNS and email providers)',
-		routing: { send: { type: 'query', property: 'dns' } },
+		displayName: 'Options',
+		name: 'options',
+		type: 'collection',
+		placeholder: 'Add Option',
+		default: {},
+		// Optional settings; when not added, nothing is sent and the API's own default applies (the same value)
+		options: [
+			{
+				displayName: 'Check DNS',
+				name: 'dns',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to also read DNS records (hosting, DNS and email providers)',
+				routing: { send: { type: 'query', property: 'dns' } },
+			},
+		],
 	},
 ];
