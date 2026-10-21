@@ -1,5 +1,5 @@
 {
-	"node": "n8n-nodes-compasslab",
+	"node": "n8n-nodes-compasslab.compassLab",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
 	"categories": [
