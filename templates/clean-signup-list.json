@@ -8,12 +8,12 @@
    "typeVersion": 1,
    "position": [
     -640,
-    120
+    60
    ],
    "parameters": {
-    "content": "## Clean a signup list\n\nEvery day this workflow checks the new email addresses in a Google Sheet and writes the verdict next to each one: `valid`, `invalid`, `risky` (disposable address) or `unknown`, plus a typo fix such as gmial.com -> gmail.com.\n\n### Setup (5 minutes)\n1. Your sheet needs a column `email`. Add the columns `email_status`, `email_suggestion` and `email_checked_at`.\n2. Pick your sheet in **Read signups** and **Write the result**.\n3. In **Validate email**, create a CompassLab credential: free plan on api.market or RapidAPI.\n\nRows that already have an `email_status` are skipped, so each address is checked once.",
+    "content": "## Clean a signup list\n\nStop bad email addresses from reaching your CRM or newsletter: every day this workflow checks the new addresses in a Google Sheet and writes the verdict next to each one.\n\n### How it works\n1. **Every day** starts the run each morning.\n2. **Read signups** reads your sheet; **Only unchecked rows** skips rows that already have a status, so each address is checked once.\n3. **Validate email** (CompassLab, Email) checks syntax, MX records, disposable and role addresses and suggests a fix for typos such as gmial.com -> gmail.com.\n4. **Write the result** writes `valid`, `invalid`, `risky` or `unknown` and the suggested fix into the same row.\n\n### Set up steps (5 minutes)\n1. Your sheet needs an `email` column. Add the columns `email_status`, `email_suggestion` and `email_checked_at`.\n2. Select your sheet in **Read signups** and **Write the result**.\n3. In **Validate email**, create a CompassLab credential with your api.market or RapidAPI key (both have a free plan).",
     "width": 560,
-    "height": 480,
+    "height": 620,
     "color": "6"
    }
   },

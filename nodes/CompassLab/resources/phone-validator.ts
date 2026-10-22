@@ -1,5 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
-import { baseURL, ifSet, listExpression } from '../shared/transport';
+import {baseURL, ifSet, listExpression } from '../shared/transport';
+
 
 // Optional settings; when not added, nothing is sent and the API's own defaults apply (the same values)
 const options = (send: 'query' | 'body'): INodeProperties[] => [
@@ -21,7 +22,7 @@ export const operations: INodeProperties[] = [
 		name: 'operation',
 		type: 'options',
 		noDataExpression: true,
-		options: [
+				options: [
 			{
 				name: 'Validate',
 				value: 'validate',

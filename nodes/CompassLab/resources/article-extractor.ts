@@ -1,5 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
-import { baseURL, listExpression } from '../shared/transport';
+import {baseURL, listExpression } from '../shared/transport';
+
 
 const outputField = (send: 'query' | 'body'): INodeProperties => ({
 	displayName: 'Output',
@@ -49,7 +50,7 @@ export const operations: INodeProperties[] = [
 		name: 'operation',
 		type: 'options',
 		noDataExpression: true,
-		options: [
+				options: [
 			{
 				name: 'Extract',
 				value: 'extract',

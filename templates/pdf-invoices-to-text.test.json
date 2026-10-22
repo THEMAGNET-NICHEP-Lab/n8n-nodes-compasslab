@@ -8,12 +8,12 @@
    "typeVersion": 1,
    "position": [
     -640,
-    100
+    40
    ],
    "parameters": {
-    "content": "## PDF invoices from Gmail to text\n\nWhen an email with a PDF arrives, this workflow extracts the text of the PDF (no OCR needed for digital invoices) and logs it in a Google Sheet with the sender, subject and page count. Scanned pages are listed so you know when a document needs OCR.\n\n### Setup (5 minutes)\n1. Connect Gmail in **New email with a PDF**. The search `has:attachment filename:pdf` only picks emails with a PDF; narrow it, e.g. `from:billing@supplier.com`.\n2. Make a sheet with the columns `received`, `from`, `subject`, `pages`, `scanned_pages`, `text` and pick it in **Log the invoice**.\n3. In **PDF to text**, create a CompassLab credential: free plan on api.market or RapidAPI.\n\nOnly the first attachment is read. Next step idea: send `text` to an AI node to pull out the invoice number, date and total.",
+    "content": "## PDF invoices from Gmail to text\n\nGet the text of every PDF that arrives by email, without opening it, and keep a log of it in Google Sheets.\n\n### How it works\n1. **New email with a PDF** (Gmail trigger) watches for emails with a PDF attachment.\n2. **PDF to text** (CompassLab, PDF) extracts the text of the first attachment and lists scanned pages, so you know when a document needs OCR.\n3. **Log the invoice** appends one row per PDF: received, from, subject, pages, scanned pages, text.\n\n### Set up steps (5 minutes)\n1. Connect Gmail in **New email with a PDF**. The search `has:attachment filename:pdf` picks emails with a PDF; narrow it, for example `from:billing@supplier.com`.\n2. Create a sheet with the columns `received`, `from`, `subject`, `pages`, `scanned_pages`, `text` and select it in **Log the invoice**.\n3. In **PDF to text**, create a CompassLab credential with your api.market or RapidAPI key (both have a free plan).\n\n### Customize\nSend `text` to an AI node to pull out the invoice number, date and total.",
     "width": 560,
-    "height": 520,
+    "height": 640,
     "color": "6"
    }
   },

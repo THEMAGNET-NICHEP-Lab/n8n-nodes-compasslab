@@ -8,12 +8,12 @@
    "typeVersion": 1,
    "position": [
     -640,
-    100
+    60
    ],
    "parameters": {
-    "content": "## Website to contacts: enrich a lead list\n\nFor each company website in a Google Sheet, this workflow finds the contact details the company publishes itself (business email, phone, LinkedIn page, legal name, VAT ID) and writes them into the same row.\n\n### Setup (5 minutes)\n1. Your sheet needs a column `website` (a domain or URL). Add the columns `company`, `email`, `phone`, `linkedin`, `vat_id`, `contacts_status`.\n2. Pick your sheet in **Read leads** and **Write the contacts**.\n3. In **Find contacts**, create a CompassLab credential: free plan on api.market or RapidAPI.\n\nOnly business contacts are returned (no personal emails), robots.txt is respected, and `contacts_status` tells you when a site publishes nothing or blocks bots.",
+    "content": "## Website to contacts: enrich a lead list\n\nTurn a list of company websites into contact details, every day, in the same Google Sheet.\n\n### How it works\n1. **Every day** starts the run each morning.\n2. **Read leads** reads your sheet; **Only new leads** skips rows already processed.\n3. **Find contacts** (CompassLab, Company Contact) reads the company's homepage and contact and legal pages and returns the business email, phone, LinkedIn page, legal name and VAT ID it publishes. Only business contacts, never personal emails; robots.txt is respected.\n4. **Write the contacts** writes the details and a status (for example when a site publishes nothing or blocks bots) into the row.\n\n### Set up steps (5 minutes)\n1. Your sheet needs a `website` column (a domain or URL). Add the columns `company`, `email`, `phone`, `linkedin`, `vat_id`, `contacts_status`.\n2. Select your sheet in **Read leads** and **Write the contacts**.\n3. In **Find contacts**, create a CompassLab credential with your api.market or RapidAPI key (both have a free plan).",
     "width": 560,
-    "height": 520,
+    "height": 640,
     "color": "6"
    }
   },
